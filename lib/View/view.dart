@@ -1,17 +1,8 @@
 // ignore: unused_import
 // ignore_for_file: deprecated_member_use
-
-// ignore: unused_import
-import 'dart:async';
-// ignore: unused_import
-import 'dart:convert';
-
 // ignore: unused_import
 import 'package:flutter/gestures.dart';
-
-import './list_Transaction.dart';
 import 'package:flutter/material.dart';
-
 import 'list_Transaction.dart';
 import 'new_Transaction.dart';
 import '../Models/transaction.dart';
@@ -73,38 +64,40 @@ void _addNewTransaction(String txtitle, double txamount){
 
 }
   
-  void _startAddNewTransaction(BuildContext ctx){
-    showModalBottomSheet(context: ctx, builder: (_)
+  void _startAddNewTransaction(BuildContext context){
+    showModalBottomSheet(context: context, builder: (_)
     {
-      return  new_transaction(_addNewTransaction);
-     
-
+      return GestureDetector(
+        onTap: (){},
+        // ignore: sort_child_properties_last
+        child: new_transaction(_addNewTransaction),
+        behavior: HitTestBehavior.opaque,
+      );
     } );
   }
 
   @override
-  Widget build(BuildContext ctx) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-
-      home: Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
         appBar: AppBar(
-          title: const Text("Expense App"),
-
-          //actions: [
-         //   IconButton(onPressed: ()=> startAddNewTransaction(context), 
-           // icon: const Icon(Icons.add,),)
-         // ],
+          title: const Center(child: Text("Personal Expense App")),
+           actions: [
+           IconButton(
+            onPressed: () => _startAddNewTransaction(context), 
+           icon: const Icon(Icons.add,),)
+          ],
   ),
 
      body: SingleChildScrollView(
-       child: Column(
-        children: [
+
+       child: Column( 
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children:<Widget> [
           // ignore: sized_box_for_whitespace
           Container(
             width: double.infinity,
-            height: 100,
-            child: const Card(
+            child:  const Card(
+              color: Colors.black,
               elevation: 5,
               child: Text("Chart Box"),
             ),
@@ -112,22 +105,13 @@ void _addNewTransaction(String txtitle, double txamount){
       list_transaction(_userTransaction),
             
         ],
-     
-     
        ),
-       
      ), 
-    //  //floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton
-     (
+    floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
      child:  const Icon(Icons.add),
-      onPressed: ()=>
-        ()=> _startAddNewTransaction(ctx), 
+      onPressed:()=> _startAddNewTransaction(context), 
       ),
-
-      ),
-
-
     );
   }
 }

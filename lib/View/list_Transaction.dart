@@ -31,7 +31,7 @@ final List<Transaction> transaction;
                       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                       decoration:  BoxDecoration(
                         border: Border.all(
-                          color: Colors.purple,
+                          color: Theme.of(context).primaryColor,
                          width: 3,
           
                         ),
@@ -40,7 +40,9 @@ final List<Transaction> transaction;
           
                       child: Text(
                       '\$${transaction[index].amount.toStringAsFixed(2)}',
-                        style: const TextStyle(color: Colors.purple,fontSize: 20,fontWeight: FontWeight.normal),
+                        style:  TextStyle(
+                          color: Theme.of(context).primaryColor
+                          ,fontSize: 20,fontWeight: FontWeight.normal),
                       ),
                     ),
           
