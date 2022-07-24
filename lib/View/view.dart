@@ -1,8 +1,11 @@
 // ignore: unused_import
 // ignore_for_file: deprecated_member_use
 // ignore: unused_import
+//import 'package:expensecounterapp/View/chart.dart';
+// ignore: unused_import
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'chart.dart';
 import 'list_Transaction.dart';
 import 'new_Transaction.dart';
 import '../Models/transaction.dart';
@@ -17,43 +20,55 @@ class View extends StatefulWidget {
 }
 
 class _ViewState extends State<View> {
+  
 
   final List<Transaction> _userTransaction = [
 
-   Transaction(
-        id: 'A1', 
-        title: "Bhorjaan",
-        amount: 30.0,
-        date: DateTime.now(),
+    //Defaults Transactions :
+  //  Transaction(
+  //       id: 'A1', 
+  //       title: "Bhorjaan",
+  //       amount: 30.0,
+  //       date: DateTime.now(),
          
-         ),
+  //        ),
 
-         Transaction(
-        id: 'A2',
-        title: "Hustle",
-        amount: 20.0,
-        date: DateTime.now(),
+  //        Transaction(
+  //       id: 'A2',
+  //       title: "Hustle",
+  //       amount: 20.0,
+  //       date: DateTime.now(),
          
-         ),
+  //        ),
 
 
-         Transaction(
-        id: 'A3',
-        title: "Hush puppies",
-        amount: 10.0,
-        date: DateTime.now(),
+  //        Transaction(
+  //       id: 'A3',
+  //       title: "Hush puppies",
+  //       amount: 10.0,
+  //       date: DateTime.now(),
          
-         ),
+  //        ),
 ];
 
 // ignore: unused_element
-void _addNewTransaction(String txtitle, double txamount){
+List<Transaction> get _recentTransaction{
+  return _userTransaction.where((tx) {
+    return tx.date.isAfter(
+      DateTime.now().subtract(const Duration(
+        days: 7),),
+    );
+  }).toList();
+}
+
+// ignore: unused_element
+void _addNewTransaction(String txtitle, double txamount, DateTime chosedate){
 
     // ignore: unused_local_variable
     final newTx = Transaction(
       title: txtitle,
       amount: txamount,
-      date: DateTime.now(),
+      date: chosedate,
        id: DateTime.now().toString(),
 
     );
@@ -73,14 +88,30 @@ void _addNewTransaction(String txtitle, double txamount){
         child: new_transaction(_addNewTransaction),
         behavior: HitTestBehavior.opaque,
       );
-    } );
+    },
+     );
   }
+
+  // ignore: unused_element
+  void _deleteTransaction(String id){
+    setState(() {
+      _userTransaction.removeWhere((tx) {
+        return tx.id == id;
+      }
+       );
+    });
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Center(child: Text("Personal Expense App")),
+          title:  Center(child: Text("Personal Expense App",
+          style: Theme.of(context).textTheme.titleMedium,
+          ),
+          ),
            actions: [
            IconButton(
             onPressed: () => _startAddNewTransaction(context), 
@@ -94,15 +125,8 @@ void _addNewTransaction(String txtitle, double txamount){
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children:<Widget> [
           // ignore: sized_box_for_whitespace
-          Container(
-            width: double.infinity,
-            child:  const Card(
-              color: Colors.black,
-              elevation: 5,
-              child: Text("Chart Box"),
-            ),
-          ),
-      list_transaction(_userTransaction),
+         Chart(_recentTransaction),
+      list_transaction(_userTransaction,_deleteTransaction),
             
         ],
        ),

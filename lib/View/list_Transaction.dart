@@ -1,4 +1,6 @@
 
+
+
 import 'package:expensecounterapp/Models/transaction.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,9 +8,10 @@ import 'package:intl/intl.dart';
 class list_transaction extends StatelessWidget {
 
 final List<Transaction> transaction;
+final Function deletetx;
 
  // ignore: use_key_in_widget_constructors
- const list_transaction(this.transaction);
+ const list_transaction(this.transaction,this.deletetx,);
 // ignore: unused_field
 
 
@@ -17,52 +20,58 @@ final List<Transaction> transaction;
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace
     return  Container(
-      height: 300,
-      child: ListView.builder(
+      height: 500,
+      child: transaction.isEmpty ? Column(
+        children:  [
+          const SizedBox(
+            height: 10,
+          ),
+
+          Text("You have yet no transactions !", style: Theme.of(context).textTheme.titleMedium),
+
+          const SizedBox(
+            height: 20,
+          ),
+
+          // ignore: sized_box_for_whitespace
+          Container(
+            height: 200,
+            child: Image.asset('assets/images/empty.png',fit: BoxFit.cover,)),
+
+        ],
+       
+      ): ListView.builder(
         itemCount: transaction.length,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-                  
-                  child: Row(
-                    children:  [
-                    // ignore: avoid_unnecessary_containers
-                    Container(
-                     // padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                      decoration:  BoxDecoration(
-                        border: Border.all(
-                          color: Theme.of(context).primaryColor,
-                         width: 3,
-          
-                        ),
-                      ),
-                        padding:  const EdgeInsets.all(10),
-          
-                      child: Text(
-                      '\$${transaction[index].amount.toStringAsFixed(2)}',
-                        style:  TextStyle(
-                          color: Theme.of(context).primaryColor
-                          ,fontSize: 20,fontWeight: FontWeight.normal),
-                      ),
-                    ),
-          
-          
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                       // Text(tx.id, style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                        Text(transaction[index].title,style: const TextStyle(fontSize: 18,fontWeight: FontWeight.normal,color: Colors.black),),
-                        const SizedBox(height: 3),
-          
-                        Text(
-                          DateFormat().format(transaction[index].date),
-                        style: const TextStyle(fontSize: 15,fontWeight: FontWeight.w400,color: Color.fromARGB(255, 75, 74, 74),)),
-                      ],
-                    ),
-                    ],
-          
+          return  Card(
+            elevation: 3,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 5,
+              vertical: 8
+            ),
+            child: ListTile(
+              leading: CircleAvatar(radius: 30,
+              child: Padding(
+                padding: const EdgeInsets.all(7),
+                child: FittedBox(
+                  child: Text(style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
                   ),
-                );
+                  'Rs ${transaction[index].amount.toStringAsFixed(0)}'),
+                ),
+              ),
+              ),
+              title: Text(transaction[index].title,
+               style: Theme.of(context).textTheme.titleMedium,),
+               subtitle: Text(DateFormat.yMMMEd().format(transaction[index].date)),
+               trailing: IconButton(onPressed: ()=> deletetx(transaction[index].id),
+                icon: const Icon(Icons.delete),
+                color: Colors.red,
+                ), 
+                ),
+          
+          );
         },
       ),
     
