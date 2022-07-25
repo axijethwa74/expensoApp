@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+// ignore: duplicate_import
 import 'package:intl/intl.dart';
 
 // ignore: camel_case_types
