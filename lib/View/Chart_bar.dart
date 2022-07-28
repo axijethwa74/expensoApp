@@ -1,4 +1,5 @@
-// ignore: file_names
+// ignore: file_names, unnecessary_import
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
@@ -6,6 +7,8 @@ class ChartBar extends StatelessWidget {
   final String label;
   final double spendingamount;
   final double  spendingPcOfTotal;
+
+  
 
   // ignore: use_key_in_widget_constructors
   const ChartBar(this.label,this.spendingamount,this.spendingPcOfTotal);
@@ -18,16 +21,13 @@ class ChartBar extends StatelessWidget {
       children: [
       // ignore: sized_box_for_whitespace
       Container(
-        width: 34, 
+        width: 50, 
         height:constraints.maxHeight * 0.15,
         child: FittedBox(
           child: Text(
-            'Rs ${spendingamount.toStringAsFixed(0)}',
-            style:const TextStyle(
-              fontWeight: FontWeight.bold,
-             fontSize: 10,
-            
-            )),
+            '\$${spendingamount.toStringAsFixed(0)}',
+            style:Theme.of(context).textTheme.titleMedium,
+            ),
         ),
       ),
 

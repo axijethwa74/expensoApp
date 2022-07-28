@@ -18,27 +18,51 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
- 
+//  final lighttheme =ThemeData(
+//         primarySwatch: Colors.amber,
+//          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
+//          textTheme: ThemeData.light().textTheme.copyWith(
+//           titleMedium:const TextStyle(
+//             fontFamily: 'Quicksand',
+//             fontSize: 20,
+//            fontWeight: FontWeight.bold,
+//  ),
+//  ),
+//  );
+
+//  final darktheme = ThemeData(
+//         primarySwatch: Colors.grey,
+//          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey),
+//          textTheme: ThemeData.dark().textTheme.copyWith(
+//           titleMedium:const TextStyle(
+//             fontFamily: 'Quicksand',
+//             fontSize: 20,
+//            fontWeight: FontWeight.bold,
+//  ),
+//  ),
+//  );
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
 
-    return    MaterialApp(
-     
-       theme: ThemeData(
-        primarySwatch: Colors.amber,
+    return  MaterialApp(
+      theme: ThemeData(
+   primarySwatch: Colors.amber,
          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
          textTheme: ThemeData.light().textTheme.copyWith(
           titleMedium:const TextStyle(
             fontFamily: 'Quicksand',
-            fontSize: 20,
-            //fontWeight: FontWeight.bold,
-
-
-          ),
-     
-         ),
-         ),
-          debugShowCheckedModeBanner: false,
+            fontSize: 22,     
+              ),
+              ),
+     brightness: Brightness.light,
+),
+       debugShowCheckedModeBanner: false,
       home: const View(),
     );
   }

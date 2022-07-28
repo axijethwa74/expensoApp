@@ -1,8 +1,11 @@
 // ignore: unused_import
-// ignore_for_file: deprecated_member_use, sized_box_for_whitespace
+// ignore_for_file: deprecated_member_use, sized_box_for_whitespace, unused_local_variable
 // ignore: unused_import
 //import 'package:expensecounterapp/View/chart.dart';
 // ignore: unused_import
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'chart.dart';
@@ -106,47 +109,116 @@ void _addNewTransaction(String txtitle, double txamount, DateTime chosedate){
 
   // ignore: prefer_final_fields, unused_field
   bool _theme = false;
+  bool _iconBool = false;
+  // ignore: no_leading_underscores_for_local_identifiers
+// ignore: prefer_final_fields, unused_field, no_leading_underscores_for_local_identifiers
+IconData _iconlight = Icons.wb_sunny;
+// ignore: prefer_final_fields, unused_field, no_leading_underscores_for_local_identifiers
+IconData _icondark = Icons.nights_stay;
 
+// ignore: no_leading_underscores_for_local_identifiers, unused_field
+final ThemeData _lightTheme = ThemeData(
+   primarySwatch: Colors.amber,
+         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber),
+         textTheme: ThemeData.light().textTheme.copyWith(
+          titleMedium:const TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: 22,     
+              ),
+              ),
+     brightness: Brightness.light,
+);
+
+// ignore: no_leading_underscores_for_local_identifiers, unused_field
+final ThemeData _darkTheme = ThemeData(
+
+    scaffoldBackgroundColor: Colors.black,
+    colorScheme: const ColorScheme.dark(),
+      // ignore: prefer_const_constructors
+      appBarTheme: AppBarTheme(
+       backgroundColor: Colors.white, 
+      ),
+      textTheme: ThemeData.light().textTheme.copyWith(
+          titleMedium:const TextStyle(
+            fontFamily: 'Quicksand',
+            fontSize: 22,   
+              ),
+              ),    
+                
+  brightness: Brightness.dark,
+);
 
 
   
 
   @override
+  // ignore: duplicate_ignore
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+   
     
-    final appbar = AppBar(
-          title:  Center(child: Text("Personal Expense App",
-          style: Theme.of(context).textTheme.titleMedium,
-          ),
-          ),
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
+    //Appbar Shortand 
+    final PreferredSizeWidget appbar;
+    if (Platform.isIOS) {
+      appbar =  CupertinoNavigationBar(
+        middle : Center(
+          child: Text("Expenso App"
+          , style: Theme.of(context).textTheme.titleMedium,),
+        ),
+        trailing: Row(
+           mainAxisSize : MainAxisSize.max,
+          children: [
+            GestureDetector(
+              onTap: () => _startAddNewTransaction(context),
+              child: const Icon(CupertinoIcons.add),
+            ),
+          ],
+        ),
+        
+        );
+    } 
+    
+    else {
+      appbar = AppBar(
+          title:  Center(child: Text("Expenso App",
+          style: Theme.of(context).textTheme.titleMedium,
+          
+          ),
+          ),
            actions: [
           IconButton(
-            onPressed: () => _startAddNewTransaction(context), 
-           icon: const Icon(Icons.add,),)
-
-          ],
-        
-         
+            onPressed: () {
+              setState(() {
+                _iconBool =! _iconBool;
+              });
+            }, 
+           icon:  Icon(_iconBool ? _iconlight : _icondark),
+           ),
+          ],       
   );
+    }
+
+
+
+
 
 
   final txlistWidget = Container(
-        height: (MediaQuery.of(context).size.height-appbar.preferredSize.height) * 0.6,
+        height: (mediaQuery.size.height-appbar.preferredSize.height) * 0.6,
         child: list_transaction(_userTransaction,_deleteTransaction));
 
-  // ignore: unused_local_variable
   final reTxWidget =  Container(
-        height: (MediaQuery.of(context).size.height-appbar.preferredSize.height
+        height: (mediaQuery.size.height-appbar.preferredSize.height
         - MediaQuery.of(context).padding.top) * 0.7,
          child : Chart(_recentTransaction),
          );
 
-    return Scaffold(
-     appBar: appbar,
-     body: SingleChildScrollView(
+  //Variable for IOS
+
+ 
+  final dynamicpage = SafeArea(child: SingleChildScrollView(
        child: Column( 
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children:<Widget> [
@@ -161,7 +233,7 @@ void _addNewTransaction(String txtitle, double txamount, DateTime chosedate){
             ],
           ),
           if(!isLandscape)Container(
-        height: (MediaQuery.of(context).size.height-appbar.preferredSize.height
+        height: (mediaQuery.size.height-appbar.preferredSize.height
         - MediaQuery.of(context).padding.top) * 0.3,
          child : Chart(_recentTransaction),
          ),
@@ -169,13 +241,22 @@ void _addNewTransaction(String txtitle, double txamount, DateTime chosedate){
          if(isLandscape) _showChart ? reTxWidget : txlistWidget,     
         ],
        ),
-     ), 
+  ),
+     );
+
+    return MaterialApp(
+       debugShowCheckedModeBanner: false,
+      theme: _iconBool ? _darkTheme : _lightTheme,
+     home: Platform.isIOS ? CupertinoPageScaffold(child: dynamicpage,) :  Scaffold(
+     appBar: appbar,
+     body: dynamicpage,
    
     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
      child:  const Icon(Icons.add),
       onPressed:()=> _startAddNewTransaction(context), 
       ),
+     ),
     );
   }
 }

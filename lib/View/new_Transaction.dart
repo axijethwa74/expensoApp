@@ -74,75 +74,83 @@ DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    return  Card(
-               child: Container(
-                padding: const EdgeInsets.all(20),
-                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children:  [
-                    
-                     TextField(
-                       style: Theme.of(context).textTheme.titleMedium,
-                      decoration: const InputDecoration(labelText: "Title : " ),
-                      controller: _titleController,
-                       onSubmitted: (_) => _addSubmit(),
-                    ),
-                    const SizedBox(height: 5,),
-                      TextField(
-                       style: const TextStyle(fontSize: 18.0,  color: Colors.black, fontWeight: FontWeight.w500),
-                      decoration: const InputDecoration(labelText: "Amount : "),
-                      controller: _amountController,
-                      keyboardType: TextInputType.number,
-                      onSubmitted: (_) => _addSubmit(),
 
-                    ),
-                    const SizedBox(height :20),
-
-                    // ignore: sized_box_for_whitespace
-                    Container(height: 50,
-                      child: Row(
-                        children: [
-                            Expanded(
-                              child: Text(
-                              // ignore: unnecessary_null_comparison
-                              _selectedDate == null ?
-                               "No choosen date" :
-                               'Picked date : ${DateFormat.yMd().format(_selectedDate)}',
-                                style: const TextStyle(fontWeight: FontWeight.w400,
-                               fontSize: 15)),
-                            ),
-                    
-                          
-                          const SizedBox(width: 25,),
-                    
-                    
-                          ElevatedButton(onPressed: _presentDatePicker, 
-                          // ignore: unnecessary_null_comparison
-                          child:  const Text(
-                          'No choose Date' 
-                           ,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                           ),
-                           )
-                        ],
+    return  SingleChildScrollView(
+      child: Card(
+                 child: Container(
+                  padding:  EdgeInsets.only(
+                    left: 10,
+                     right: 10,
+                      top: 10,
+                      bottom: MediaQuery.of(context).viewInsets.bottom +10,
                       ),
-                    ),
-                    const SizedBox(height :15),
-                   ElevatedButton(
-                    onPressed: (){
-                      _showToast(context);
-                      // ignore: unused_label
-                      child:  const Text('Succesffully Added');
-                       _addSubmit();
+                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children:  [
                       
-                    }, child: const Text("Add Transactions",
-                   style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
-                   ),),
-                  ],
-                ),
-
-
-               ),
-                );
+                       TextField(
+                         style: Theme.of(context).textTheme.titleMedium,
+                        decoration: const InputDecoration(labelText: "Title : " ),
+                        controller: _titleController,
+                         onSubmitted: (_) => _addSubmit(),
+                      ),
+                      const SizedBox(height: 5,),
+                        TextField(
+                         style: const TextStyle(fontSize: 18.0,  color: Colors.black, fontWeight: FontWeight.w500),
+                        decoration: const InputDecoration(labelText: "Amount : "),
+                        controller: _amountController,
+                        keyboardType: TextInputType.number,
+                        onSubmitted: (_) => _addSubmit(),
+    
+                      ),
+                      const SizedBox(height :20),
+    
+                      // ignore: sized_box_for_whitespace
+                      Container(height: 50,
+                        child: Row(
+                          children: [
+                              Expanded(
+                                child: Text(
+                                // ignore: unnecessary_null_comparison
+                                _selectedDate == null ?
+                                 "No choosen date" :
+                                 'Picked date : ${DateFormat.yMd().format(_selectedDate)}',
+                                  style: const TextStyle(fontWeight: FontWeight.w400,
+                                 fontSize: 15)),
+                              ),
+                      
+                            
+                            const SizedBox(width: 25,),
+                      
+                      
+                            FlatButton(onPressed: _presentDatePicker, 
+                            // ignore: unnecessary_null_comparison
+                            child:   Text(
+                            'Choose Date' 
+                             ,style: Theme.of(context).textTheme.titleSmall,
+                             ),
+                             )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height :15),
+                     ElevatedButton(
+                      onPressed: (){
+                        _showToast(context);
+                        // ignore: unused_label
+                        child:  const Text('Succesffully Added');
+                         _addSubmit();
+                        
+                      }, child: const Text("Add Transactions",
+                     style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
+                     ),),
+                    ],
+                  ),
+    
+    
+                 ),
+                  ),
+    );
   }
   
   void _showToast(BuildContext context) {
