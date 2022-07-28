@@ -2,8 +2,11 @@
 
 // ignore: unused_import
 import 'package:flutter/foundation.dart';
+// ignore: unused_import
+import 'package:flutter/material.dart';
 
 class Transaction{
+  
   final String id;
   final String title;
   final double amount;

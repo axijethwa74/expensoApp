@@ -1,5 +1,5 @@
 // ignore: unused_import
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, sized_box_for_whitespace
 // ignore: unused_import
 //import 'package:expensecounterapp/View/chart.dart';
 // ignore: unused_import
@@ -50,9 +50,10 @@ class _ViewState extends State<View> {
          
   //        ),
 ];
-
+// ignore: prefer_final_fields, unused_field
+bool _showChart = false;
 // ignore: unused_element
-List<Transaction> get _recentTransaction{
+List<Transaction> get  _recentTransaction{
   return _userTransaction.where((tx) {
     return tx.date.isAfter(
       DateTime.now().subtract(const Duration(
@@ -103,34 +104,73 @@ void _addNewTransaction(String txtitle, double txamount, DateTime chosedate){
   }
 
 
+  // ignore: prefer_final_fields, unused_field
+  bool _theme = false;
+
+
+
+  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
+    // ignore: unused_local_variable
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+    
+    final appbar = AppBar(
           title:  Center(child: Text("Personal Expense App",
           style: Theme.of(context).textTheme.titleMedium,
           ),
           ),
+
            actions: [
-           IconButton(
+          IconButton(
             onPressed: () => _startAddNewTransaction(context), 
            icon: const Icon(Icons.add,),)
+
           ],
-  ),
+        
+         
+  );
 
+
+  final txlistWidget = Container(
+        height: (MediaQuery.of(context).size.height-appbar.preferredSize.height) * 0.6,
+        child: list_transaction(_userTransaction,_deleteTransaction));
+
+  // ignore: unused_local_variable
+  final reTxWidget =  Container(
+        height: (MediaQuery.of(context).size.height-appbar.preferredSize.height
+        - MediaQuery.of(context).padding.top) * 0.7,
+         child : Chart(_recentTransaction),
+         );
+
+    return Scaffold(
+     appBar: appbar,
      body: SingleChildScrollView(
-
        child: Column( 
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children:<Widget> [
-          // ignore: sized_box_for_whitespace
-         Chart(_recentTransaction),
-      list_transaction(_userTransaction,_deleteTransaction),
-            
+         if(isLandscape) Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Switch(value: _showChart, onChanged: (val){
+                setState(() {
+                  _showChart=val;
+                },);
+              },),
+            ],
+          ),
+          if(!isLandscape)Container(
+        height: (MediaQuery.of(context).size.height-appbar.preferredSize.height
+        - MediaQuery.of(context).padding.top) * 0.3,
+         child : Chart(_recentTransaction),
+         ),
+          if(!isLandscape)txlistWidget,
+         if(isLandscape) _showChart ? reTxWidget : txlistWidget,     
         ],
        ),
      ), 
+   
     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
      child:  const Icon(Icons.add),

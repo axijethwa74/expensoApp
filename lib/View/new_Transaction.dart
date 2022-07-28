@@ -123,10 +123,6 @@ DateTime _selectedDate = DateTime.now();
                            ,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                            ),
                            )
-                          
-
-                         
-                    
                         ],
                       ),
                     ),

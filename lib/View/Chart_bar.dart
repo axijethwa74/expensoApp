@@ -13,15 +13,15 @@ class ChartBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return LayoutBuilder(builder: (context, constraints) {
+      return Column(
       children: [
-
-      
-      SizedBox(
+      // ignore: sized_box_for_whitespace
+      Container(
         width: 34, 
-        height: 20,
+        height:constraints.maxHeight * 0.15,
         child: FittedBox(
-          child:   Text(
+          child: Text(
             'Rs ${spendingamount.toStringAsFixed(0)}',
             style:const TextStyle(
               fontWeight: FontWeight.bold,
@@ -31,13 +31,13 @@ class ChartBar extends StatelessWidget {
         ),
       ),
 
-        const SizedBox(
-          height: 6,
+         SizedBox(
+          height:constraints.maxHeight * 0.05,
         ),
 
         // ignore: sized_box_for_whitespace
         Container(
-          height: 60,
+          height:constraints.maxHeight * 0.6,
           width: 10,
           child: Stack(
             children: [
@@ -61,13 +61,19 @@ class ChartBar extends StatelessWidget {
 
         ),
 
-         const SizedBox(
-          height: 4,
+          SizedBox(
+          height:constraints.maxHeight * 0.05,
         ),
 
-        Text(label),
+        // ignore: sized_box_for_whitespace
+        Container(height:constraints.maxHeight * 0.05,
+          child: FittedBox(child: Text(label))),
 
       ],
     );
+      
+    },
+    );
+    
   }
 }

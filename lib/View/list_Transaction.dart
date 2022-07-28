@@ -19,9 +19,9 @@ final Function deletetx;
   @override
   Widget build(BuildContext context) {
     // ignore: sized_box_for_whitespace
-    return  Container(
-      height: 500,
-      child: transaction.isEmpty ? Column(
+    return transaction.isEmpty ? 
+    LayoutBuilder(builder: (context, constraints){
+      return Column(
         children:  [
           const SizedBox(
             height: 10,
@@ -35,11 +35,12 @@ final Function deletetx;
 
           // ignore: sized_box_for_whitespace
           Container(
-            height: 200,
+            height: constraints.maxHeight * 0.6,
             child: Image.asset('assets/images/empty.png',fit: BoxFit.cover,)),
 
-        ],
-       
+        ]);
+    }
+  
       ): ListView.builder(
         itemCount: transaction.length,
         itemBuilder: (BuildContext context, int index) {
@@ -72,10 +73,7 @@ final Function deletetx;
                 ),
           
           );
-        },
-      ),
-    
-     
+        }, 
     );
   }
 }
