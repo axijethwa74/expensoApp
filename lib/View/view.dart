@@ -1,5 +1,5 @@
 // ignore: unused_import
-// ignore_for_file: deprecated_member_use, sized_box_for_whitespace, unused_local_variable
+// ignore_for_file: deprecated_member_use, sized_box_for_whitespace, unused_local_variable, duplicate_ignore
 // ignore: unused_import
 //import 'package:expensecounterapp/View/chart.dart';
 // ignore: unused_import
@@ -65,7 +65,7 @@ List<Transaction> get  _recentTransaction{
   }).toList();
 }
 
-// ignore: unused_element
+// ignore: unused_element, duplicate_ignore
 void _addNewTransaction(String txtitle, double txamount, DateTime chosedate){
 
     // ignore: unused_local_variable
@@ -132,20 +132,22 @@ final ThemeData _lightTheme = ThemeData(
 // ignore: no_leading_underscores_for_local_identifiers, unused_field
 final ThemeData _darkTheme = ThemeData(
 
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: const Color.fromARGB(255, 51, 50, 50),
     colorScheme: const ColorScheme.dark(),
       // ignore: prefer_const_constructors
       appBarTheme: AppBarTheme(
-       backgroundColor: Colors.white, 
+        
+      // backgroundColor: const Color.fromARGB(255, 66, 66, 66) ,
+       color: const Color.fromARGB(255, 255, 73, 7),
       ),
-      textTheme: ThemeData.light().textTheme.copyWith(
+      textTheme: ThemeData.dark().textTheme.copyWith(
           titleMedium:const TextStyle(
             fontFamily: 'Quicksand',
             fontSize: 22,   
               ),
               ),    
                 
-  brightness: Brightness.dark,
+  //brightness: Brightness.dark,
 );
 
 
@@ -165,7 +167,7 @@ final ThemeData _darkTheme = ThemeData(
       appbar =  CupertinoNavigationBar(
         middle : Center(
           child: Text("Expenso App"
-          , style: Theme.of(context).textTheme.titleMedium,),
+          , style: Theme.of(context).textTheme.titleMedium),
         ),
         trailing: Row(
            mainAxisSize : MainAxisSize.max,
@@ -253,7 +255,8 @@ final ThemeData _darkTheme = ThemeData(
    
     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-     child:  const Icon(Icons.add),
+     // ignore: sort_child_properties_last
+     child: const Icon(Icons.add,),
       onPressed:()=> _startAddNewTransaction(context), 
       ),
      ),
